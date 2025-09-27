@@ -1,0 +1,27 @@
+{
+	"name": "api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "pnpm clean && tsc --sourceMap false",
+		"clean": "rimraf dist/",
+		"dev": "tsx watch src/main.ts",
+		"start": "node dist/main.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.15.1",
+	"dependencies": {
+		"@meli/utils": "workspace:*",
+		"dotenv": "^17.2.2",
+		"express": "^4.21.2",
+		"morgan": "^1.10.1"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.3",
+		"@types/morgan": "^1.9.10",
+		"@types/node": "^24.5.2"
+	}
+}

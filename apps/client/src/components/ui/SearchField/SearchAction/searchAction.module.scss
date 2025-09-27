@@ -1,0 +1,17 @@
+@use "../../../../styles/colors" as colors;
+
+.button{
+  cursor: pointer;
+  outline: none;
+  border: none;
+  position: absolute;
+  top: 2;
+  bottom: 2;
+  right: 2;
+  background-color: colors.$gray-100;
+  padding-left: 4px;
+  padding-right: 4px;
+  svg{
+    color: colors.$gray-300;
+  }
+}

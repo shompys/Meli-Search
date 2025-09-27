@@ -1,0 +1,20 @@
+@use "../../../styles/colors" as colors;
+@use "../../../styles/mixins" as mixins;
+
+
+.header {
+  background-color: colors.$primary-color;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  nav {
+    @include mixins.container;
+    position: relative;
+    display: flex;
+    column-gap: 8px;
+    // justify-content: stretch;
+    align-items: center;
+  }
+}
+.searchField {
+  flex: 1;
+}

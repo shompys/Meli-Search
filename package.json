@@ -1,0 +1,27 @@
+{
+	"name": "meli",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"biome:check": "biome format .",
+		"biome:write": "biome format --write .",
+		"biome:check:all": "biome check .",
+		"biome:write:all": "biome check --write .",
+		"dev": "turbo run dev",
+		"build": "turbo run build",
+		"start": "turbo run start"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.15.1",
+	"devDependencies": {
+		"@biomejs/biome": "2.2.4",
+		"rimraf": "^6.0.1",
+		"tsx": "^4.20.6",
+		"turbo": "^2.5.8",
+		"typescript": "^5.9.2"
+	}
+}
