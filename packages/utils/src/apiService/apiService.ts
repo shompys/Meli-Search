@@ -47,18 +47,18 @@ const parseResponse = async <T>(
 				throw new BadRequest(data?.response?.message);
 			}
 			if (response.status === 401) {
-				throw new Unauthorized();
+				throw new Unauthorized(data?.response?.message);
 			}
 			if (response.status === 403) {
-				throw new Forbidden();
+				throw new Forbidden(data?.response?.message);
 			}
 			if (response.status === 404) {
-				throw new NotFound();
+				throw new NotFound(data?.response?.message);
 			}
 			if (response.status === 422) {
-				throw new UnprocessableEntity();
+				throw new UnprocessableEntity(data?.response?.message);
 			}
-			throw new Unknown();
+			throw new Unknown(data?.response?.message);
 		}
 
 		if (data.success === false) {

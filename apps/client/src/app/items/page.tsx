@@ -14,12 +14,12 @@ export const metadata: Metadata = {
 	},
 };
 
-export const getProducts = async (seach: string) => {
+export const getProducts = async (search: string) => {
 	const response = apiService({
 		hostname: "http://localhost:3001",
 		pathname: "api/items",
 		query: {
-			q: seach,
+			q: search,
 		},
 	});
 	return response;
@@ -30,13 +30,12 @@ type ItemsPageProps = {
 };
 
 const ItemsPage: FC<ItemsPageProps> = async ({ searchParams }) => {
-	console.log("-> ", searchParams?.search);
-
-	const response = await getProducts(searchParams?.search ?? "");
-	console.log("log: ", response);
+	const search = searchParams?.search || "";
+	const response = await getProducts(search);
+	console.log(response);
 	return (
 		<div className={styles.items}>
-			<h1>Items</h1>
+			<pre>{JSON.stringify(response)}</pre>
 		</div>
 	);
 };
