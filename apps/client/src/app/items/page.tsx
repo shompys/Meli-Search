@@ -24,13 +24,16 @@ export const getProducts = async (search: string) => {
 	return response;
 };
 
+type ItemsPageProps = {
+	searchParams: Promise<{ search?: string }>;
+};
+
 export const generateMetadata = async ({
-	params,
-}: {
-	params: { id: string };
-}): Promise<Metadata> => {
+	searchParams,
+}: ItemsPageProps): Promise<Metadata> => {
 	try {
-		const response = await getProducts(params?.id);
+		const search = (await searchParams).search || "";
+		const response = await getProducts(search);
 
 		return {
 			title: response.categories.join(" | "),
@@ -63,13 +66,9 @@ export const generateMetadata = async ({
 	}
 };
 
-type ItemsPageProps = {
-	searchParams: Promise<{ search?: string }>;
-};
-
 const ItemsPage: FC<ItemsPageProps> = async ({ searchParams }) => {
-	const params = await searchParams;
-	const search = params.search || "";
+	const search = (await searchParams).search || "";
+	// const search = params.search || "";
 
 	if (!search) {
 		throw new NotFound(`Dejaste el campo vacio`);

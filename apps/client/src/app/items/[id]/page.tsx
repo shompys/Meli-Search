@@ -1,11 +1,12 @@
 import { apiService, formatPrice, getMostFrequent } from "@meli/utils";
 import type { Metadata } from "next";
+import type { FC } from "react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { ProductDetail } from "@/components/ProductDetail";
 import { Condition, LOGO, Routes } from "@/const";
-
 import type { ProductPresentationalResponse } from "../../../../../backend/src/products/interfaces";
 
+//TODO: revisar bien https://nextjs.org/docs/app/getting-started/layouts-and-pages
 export const getProduct = async (id: string) => {
 	const response = apiService<ProductPresentationalResponse>({
 		hostname: "http://localhost:3001",
@@ -13,14 +14,16 @@ export const getProduct = async (id: string) => {
 	});
 	return response;
 };
-
+type ItemPageProps = {
+	params: Promise<{ id?: string }>;
+};
 export const generateMetadata = async ({
 	params,
-}: {
-	params: { id: string };
-}): Promise<Metadata> => {
+}: ItemPageProps): Promise<Metadata> => {
 	try {
-		const response = await getProduct(params?.id);
+		const id = (await params).id || "";
+
+		const response = await getProduct(id);
 
 		return {
 			title: response.item.title,
@@ -31,7 +34,7 @@ export const generateMetadata = async ({
 				description: response.item.description,
 			},
 			alternates: {
-				canonical: `http://localhost:3000${Routes.ITEMS}/${params?.id}`,
+				canonical: `http://localhost:3000${Routes.ITEMS}/${id}`,
 			},
 		};
 	} catch {
@@ -44,13 +47,14 @@ export const generateMetadata = async ({
 				images: [LOGO],
 			},
 			alternates: {
-				canonical: `http://localhost:3000${Routes.ITEMS}/${params?.id}`,
+				canonical: `http://localhost:3000`,
 			},
 		};
 	}
 };
-const ItemPage = async ({ params }: { params: { id: string } }) => {
-	const response = await getProduct(params?.id);
+const ItemPage: FC<ItemPageProps> = async ({ params }) => {
+	const id = (await params).id || "";
+	const response = await getProduct(id);
 
 	return (
 		<>

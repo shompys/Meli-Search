@@ -3,9 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
 	/* config options here */
 	sassOptions: {},
-	images: {
-		remotePatterns: [new URL("https://http2.mlstatic.com/**")],
-	},
+	images: { unoptimized: true },
 };
 
 export default nextConfig;
