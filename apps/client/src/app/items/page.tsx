@@ -5,11 +5,11 @@ import {
 	NotFound,
 } from "@meli/utils";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import type { FC } from "react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Catalog } from "@/components/Catalog";
 import { Condition, LOGO } from "@/const";
-
 import type { SearchResultsResponse } from "../../../../backend/src/products/interfaces";
 import styles from "./items.module.scss";
 
@@ -68,15 +68,14 @@ export const generateMetadata = async ({
 
 const ItemsPage: FC<ItemsPageProps> = async ({ searchParams }) => {
 	const search = (await searchParams).search || "";
-	// const search = params.search || "";
 
 	if (!search) {
-		throw new NotFound(`Dejaste el campo vacio`);
+		notFound();
 	}
 	const response = await getProducts(search);
 
 	if (response?.items.length <= 0) {
-		throw new NotFound(`No hay resultados para: ${search}`);
+		notFound();
 	}
 
 	return (
@@ -96,7 +95,7 @@ const ItemsPage: FC<ItemsPageProps> = async ({ searchParams }) => {
 							currency: item.price.currency,
 							amount: item.price.amount,
 							decimals: item.price.decimals,
-						})}
+						}).split(",")}
 					/>
 				))}
 			</Catalog>

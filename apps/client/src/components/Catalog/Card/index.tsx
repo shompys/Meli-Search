@@ -8,7 +8,7 @@ import styles from "./card.module.scss";
 type CardComponentProps = {
 	id: string;
 	picture: string;
-	price: string;
+	price: string[];
 	title: string;
 	className?: string;
 	condition: string;
@@ -23,6 +23,7 @@ export const CardComponent: FC<CardComponentProps> = ({
 	condition,
 	freeShipping,
 }) => {
+	const [currencyWithAmount, decimals] = price;
 	return (
 		<Link
 			href={`${Routes.ITEMS}/${id}`}
@@ -39,7 +40,11 @@ export const CardComponent: FC<CardComponentProps> = ({
 			</div>
 			<div className={styles.card__details}>
 				<div className={styles.card__details__topSection}>
-					<p className={styles.card__details__topSection__price}>{price}</p>
+					<p className={styles.card__details__topSection__price}>
+						<span>{currencyWithAmount}</span>
+						<span>{decimals}</span>
+					</p>
+
 					{freeShipping && (
 						<p className={styles.card__details__topSection__freeShipping}>
 							Envío gratis

@@ -1,18 +1,22 @@
 import { apiService, formatPrice, getMostFrequent } from "@meli/utils";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import type { FC } from "react";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { ProductDetail } from "@/components/ProductDetail";
 import { Condition, LOGO, Routes } from "@/const";
 import type { ProductPresentationalResponse } from "../../../../../backend/src/products/interfaces";
 
-//TODO: revisar bien https://nextjs.org/docs/app/getting-started/layouts-and-pages
 export const getProduct = async (id: string) => {
-	const response = apiService<ProductPresentationalResponse>({
-		hostname: "http://localhost:3001",
-		pathname: ["api", "items", id].join("/"),
-	});
-	return response;
+	try {
+		const response = await apiService<ProductPresentationalResponse>({
+			hostname: "http://localhost:3001",
+			pathname: ["api", "items", id].join("/"),
+		});
+		return response;
+	} catch (_err) {
+		notFound();
+	}
 };
 type ItemPageProps = {
 	params: Promise<{ id?: string }>;
@@ -54,6 +58,7 @@ export const generateMetadata = async ({
 };
 const ItemPage: FC<ItemPageProps> = async ({ params }) => {
 	const id = (await params).id || "";
+
 	const response = await getProduct(id);
 
 	return (
