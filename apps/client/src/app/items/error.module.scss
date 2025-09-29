@@ -1,0 +1,24 @@
+@use "../../styles/colors" as colors;
+.error{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -10rem;
+  flex: 1;
+
+  &__content{
+    display: flex;
+    flex-direction: column;
+    
+    &__actionButton {
+      border: none;
+      border-radius: .5rem;
+      padding: .5rem 2rem;
+      background-color: colors.$blue;
+      color: colors.$white;
+      font-weight: 600;
+      
+    }
+  }
+  
+}

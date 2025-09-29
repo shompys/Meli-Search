@@ -3,10 +3,15 @@
 	"compilerOptions": {
 		"module": "CommonJS",
 		"moduleResolution": "node",
+
 		"declaration": true, // ← Genera .d.ts
 		"declarationMap": false, // ← Genera .d.ts.map
 		"sourceMap": true, // ← Genera .js.map
 		"rootDir": "./src",
-		"outDir": "./dist"
+		"outDir": "./dist",
+		"allowImportingTsExtensions": false,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": false
 	}
 }

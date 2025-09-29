@@ -1,0 +1,17 @@
+@use "../../styles/colors" as colors;
+
+.breadcrumb {
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  font-size: 12px;
+  display: flex;
+  column-gap: 4px;
+  color: colors.$gray-300;
+  white-space: nowrap;
+  overflow: auto;
+
+  &__crumbLink {
+    color: colors.$blue;
+  }
+
+}

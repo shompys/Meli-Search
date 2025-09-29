@@ -1,14 +1,13 @@
-import { BadRequest } from "@meli/utils";
+import { BadRequest, getRandomBoolean, getRandomNumber } from "@meli/utils";
 import { type Request, type Response, Router } from "express";
 import { getCategoriesByDomain } from "../api/meliService/getCategoriesByDomain";
 import { getProductById } from "../api/meliService/getProductById";
-
 import { getProductSearch } from "../api/meliService/getProductSearch";
-
 import type {
 	ProductPresentationalResponse,
 	SearchResultsResponse,
 } from "./interfaces";
+import { mockDescription } from "./mockData";
 
 const router: Router = Router();
 
@@ -22,15 +21,23 @@ router.get(PATHNAME, async (req: Request, res: Response) => {
 			throw new BadRequest("Something went wrong.");
 		}
 		console.log("search: ", search);
+
 		const responseSearch = await getProductSearch(`${search}`);
 
-		const response = await Promise.all(
+		const responses = await Promise.allSettled(
 			responseSearch.results?.map((product) => {
 				const id =
-					product?.children_ids[0] || product.catalog_product_id || product.id;
+					product?.children_ids?.length > 0
+						? product?.children_ids[0]
+						: product.catalog_product_id || product.id;
+
 				return getProductById(id);
 			}),
 		);
+
+		const response = responses
+			.filter((res) => res.status === "fulfilled")
+			.map((res) => res.value);
 
 		const domainsId = response.map((result) => result.domain_id);
 
@@ -38,12 +45,11 @@ router.get(PATHNAME, async (req: Request, res: Response) => {
 			domainsId.map((domainId) => getCategoriesByDomain(domainId)),
 		);
 
-		const categories = new Set<string>();
+		const categories = [];
 		for (const result of results) {
 			if (result.status === "fulfilled") {
 				const [category] = result.value;
-
-				categories.add(category.name);
+				categories.push(category.name);
 			}
 		}
 
@@ -66,12 +72,12 @@ router.get(PATHNAME, async (req: Request, res: Response) => {
 					title: result.name,
 					price: {
 						currency: "ARS",
-						amount: 100,
-						decimals: 99,
+						amount: getRandomNumber(),
+						decimals: getRandomNumber(99),
 					},
 					picture: thumbnail || firstPicture,
-					condition: "new",
-					free_shipping: true,
+					condition: getRandomBoolean() ? "new" : "used",
+					free_shipping: getRandomBoolean(),
 				};
 				return data;
 			}),
@@ -92,6 +98,8 @@ router.get(`${PATHNAME}/:id`, async (req: Request, res: Response) => {
 
 	try {
 		const response = await getProductById(id);
+		const categories = await getCategoriesByDomain(response.domain_id);
+
 		const picture = response.pictures[0]?.url;
 		const responsePresentational: ProductPresentationalResponse = {
 			author: {
@@ -101,16 +109,17 @@ router.get(`${PATHNAME}/:id`, async (req: Request, res: Response) => {
 			item: {
 				id: response.id,
 				title: response.name,
+				categories: categories.map((category) => category.name),
 				price: {
 					currency: "ARS",
-					amount: 100,
-					decimals: 99,
+					amount: getRandomNumber(),
+					decimals: getRandomNumber(99),
 				},
 				picture,
-				condition: "new",
-				free_shipping: true,
-				sold_quantity: 0,
-				description: response.short_description.content,
+				condition: getRandomBoolean() ? "new" : "used",
+				free_shipping: getRandomBoolean(),
+				sold_quantity: getRandomNumber(),
+				description: response.short_description.content || mockDescription,
 			},
 		};
 

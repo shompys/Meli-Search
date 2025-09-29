@@ -1,6 +1,7 @@
 export interface Product {
 	id: string;
 	title: string;
+	categories?: string[];
 	price: {
 		currency: string;
 		amount: number;

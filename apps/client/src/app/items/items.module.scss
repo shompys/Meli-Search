@@ -1,3 +1,14 @@
+@use "../../styles/mixins";
+
 .items {
-  
+  &__title{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    @include mixins.mediaQuery768{
+      font-size: 24px;
+      
+    }
+
+  }
 }

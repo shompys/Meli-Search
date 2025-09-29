@@ -6,6 +6,7 @@ export const getProductSearch = async (search: string) => {
 	const accessToken = process.env.ACCESS_TOKEN ?? "";
 	const headers = { Authorization: `Bearer ${accessToken}` };
 	const SITE_ID = process.env.SITE_ID ?? "";
+
 	const response = await apiService<SearchProducts>({
 		hostname,
 		headers,
@@ -13,7 +14,7 @@ export const getProductSearch = async (search: string) => {
 		query: {
 			site_id: SITE_ID,
 			q: search,
-			status: "active",
+			limit: 4,
 		},
 	});
 

@@ -1,0 +1,20 @@
+@use "../../../styles/colors" as colors;
+@use "../../../styles/mixins" as mixins;
+
+.button {
+  cursor: pointer;
+  background-color: colors.$blue;
+  color: colors.$white;
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: .5rem;
+  border: none;
+  transition: filter 0.1s ease;
+  &:hover{
+    filter: brightness(.9);
+  }
+  @include mixins.mediaQuery768{
+    margin-top: 2rem;
+  }
+}
