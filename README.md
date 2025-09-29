@@ -19,8 +19,8 @@ pnpm install
 
 ```bash
 ACCESS_TOKEN=
-MELI_API=
-SITE_ID=
+MELI_API=https://api.mercadolibre.com
+SITE_ID=MLA
 ```
 
 #### Desarrollo
@@ -67,6 +67,12 @@ o
 pnpm run dev (se ocupa de construir el dist del paquete también)
 ```
  - #### Es importante ejecutar un reinicio de TypeScript en el IDE para que se actualice el tipado de las utils.
+
+#### Autenticación (Mercado Libre)
+- Debes generar tu propio `ACCESS_TOKEN` y configurar tu aplicación en el DevCenter de Mercado Libre.
+- Lee la guía oficial para crear una aplicación, obtener `client_id`, `client_secret` y generar tokens: [Crea una aplicación en Mercado Libre](https://developers.mercadolibre.com.ar/es_ar/crea-una-aplicacion-en-mercado-libre-es).
+
+
 
 
 
